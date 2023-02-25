@@ -1,6 +1,7 @@
 'use strict'
 
 const UserModel = require ('../models/user.model')
+const CoursesModel = require('../models/courses.model')
 const bcrypt = require("bcrypt");
 const {generateJWT} = require ('../helpers/create-jwt')
 
@@ -82,14 +83,7 @@ const updateUser = async (req, res) =>{
     }
 }
 
-const deleteUser = async(req, res) =>{
-
-    if(req.UserModel.rol === 'ADMIN'){
-
-    }
-
-
-
+const deleteUser = async(req, res) =>{    
     try{
         const id = req.params.id;
         const result = await UserModel.findByIdAndDelete(id);
@@ -129,6 +123,36 @@ const addCourses = async(req, res) =>{
     }
 }
 
+const deleteCourses = async(req, res) =>{
+ //   if(req.UserModel.rol === 'PROFESOR'){
+        try{
+            //const course = await UserModel.find({courses:[req.params.course]}) //Buscar por una cadena de texto
+            const course = req.params.course
+            const result = await CoursesModel.find({name: course})
+
+
+            if (!course){
+                return res.status(400).send({message: 'El curso que intenta eliminar no existe'});
+            }
+
+            console.log('Si funcionó')
+            
+           // await UserModel.updateMany()
+
+        }catch(error){
+                throw new Error(error);
+            }
+            
+            
+        }
+//}
+
+
+
+
+
+
+
 const loginUser = async(req, res) =>{
     const {email, password} = req.body;
     try{
@@ -165,4 +189,7 @@ const loginUser = async(req, res) =>{
 }
 
 
-module.exports = {createUser, listUsers, updateUser , deleteUser, addCourses, loginUser}
+
+
+
+module.exports = {loginUser, createUser, listUsers, updateUser , deleteUser, addCourses,deleteCourses }

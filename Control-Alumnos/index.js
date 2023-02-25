@@ -1,6 +1,5 @@
 'use strict'
 
-//Prueba <3
 
 const express = require("express");
 const app = express();
